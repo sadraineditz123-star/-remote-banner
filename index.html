@@ -1,152 +1,73 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Announcement Banner</title>
-
 <style>
-* {
-    box-sizing: border-box;
-}
-
+* { box-sizing: border-box; }
+html, body { margin:0; height:100%; background:transparent; }
 body {
-    margin: 0;
-    min-height: 100vh;
-    background: #101010;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    font-family: Arial, sans-serif;
-    color: white;
-    
+  background: rgba(0,0,0,0.65);
+  display:flex; justify-content:center; align-items:center;
+  font-family: Arial, sans-serif; color:white;
 }
-
 .popup {
-    width: 340px;
-    background: #080808;
-    border: 1px solid #c9a227;
-    border-radius: 20px;
-    padding: 16px;
-    box-shadow: 0 0 20px rgba(201,162,39,0.12);
-    
+  width: 320px; max-width: 92%;
+  background:#080808; border:1px solid #c9a227;
+  border-radius:20px; padding:16px;
+  box-shadow:0 0 20px rgba(201,162,39,0.25);
 }
-
-.header {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    margin-bottom: 16px;
-}
-
-.logo {
-    width: 58px;
-    height: 58px;
-    border-radius: 50%;
-    border: 2px solid #c9a227;
-    object-fit: cover;
-}
-
-.title {
-    color: #e4bd50;
-    font-size: 19px;
-    font-weight: bold;
-}
-
-.welcome-box {
-    border: 1px solid #c9a227;
-    border-radius: 15px;
-    padding: 14px;
-    background: #111111;
-    line-height: 2.6;
-    
-}
-
-.welcome-title {
-    text-align: center;
-    color: #e4bd50;
-    font-size: 18px;
-    font-weight: bold;
-    margin-bottom: 12px;
-}
-
-.message {
-    color: #eeeeee;
-    font-size: 14px;
-    white-space: pre-line;
-}
-
-.buttons {
-    display: flex;
-    gap: 10px;
-    margin-top: 16px;
-}
-
-button {
-    flex: 1;
-    padding: 12px;
-    border-radius: 8px;
-    border: 1px solid #c9a227;
-    font-size: 14px;
-    font-weight: bold;
-    cursor: pointer;
-}
-
-.close {
-    background: #151515;
-    color: #e4bd50;
-}
-
-.join {
-    background: #d4a928;
-    color: #000;
-}
+.header { display:flex; align-items:center; gap:12px; margin-bottom:16px; }
+.logo { width:58px; height:58px; border-radius:50%; border:2px solid #c9a227; object-fit:cover; }
+.title { color:#e4bd50; font-size:19px; font-weight:bold; }
+.welcome-box { border:1px solid #c9a227; border-radius:15px; padding:14px; background:#111; line-height:1.7; }
+.welcome-title { text-align:center; color:#e4bd50; font-size:18px; font-weight:bold; margin-bottom:12px; }
+.message { color:#eee; font-size:14px; white-space:pre-line; }
+.buttons { display:flex; gap:10px; margin-top:16px; }
+button { flex:1; padding:12px; border-radius:8px; border:1px solid #c9a227; font-size:14px; font-weight:bold; }
+.close { background:#151515; color:#e4bd50; }
+.join { background:#d4a928; color:#000; }
 </style>
 </head>
-
 <body>
-
-<div class="popup">
-
-    <div class="header">
-        <img class="logo"
-             src="https://placehold.co/100x100/111111/D4AF37?text=LOGO"
-             alt="Profile Logo">
-
-        <div class="title">
-            TG : @YourName
-        </div>
-    </div>
-
-    <div class="welcome-box">
-        <div class="welcome-title">
-            ✨ Hello & Welcome ✨
-        </div>
-
-        <div class="message">
-Welcome to our community!
-
-Here you can add your announcement, information, and updates.
-        </div>
-    </div>
-
-    <div class="buttons">
-        <button class="close" onclick="closeBanner()">Close</button>
-        <button class="join" onclick="joinCommunity()">Join Now</button>
-    </div>
-
+<div class="popup" id="popup" style="display:none">
+  <div class="header">
+    <img class="logo" id="logo" alt="Profile Logo">
+    <div class="title" id="title"></div>
+  </div>
+  <div class="welcome-box">
+    <div class="welcome-title" id="wtitle"></div>
+    <div class="message" id="msg"></div>
+  </div>
+  <div class="buttons">
+    <button class="close" onclick="closeBanner()">Close</button>
+    <button class="join" onclick="joinCommunity()">Join Now</button>
+  </div>
 </div>
 
 <script>
+var LINK = "";
 function closeBanner() {
-    document.querySelector(".popup").style.display = "none";
+  if (window.Android) Android.close();
+  else document.getElementById("popup").style.display = "none";
 }
-
 function joinCommunity() {
-    alert("Add your community link here.");
+  if (window.Android) Android.open(LINK);
+  else window.open(LINK);
 }
+fetch("banner.json?" + Date.now())
+  .then(function(r){ return r.json(); })
+  .then(function(j){
+    if (j.show === false) { closeBanner(); return; }
+    document.getElementById("logo").src = j.logo;
+    document.getElementById("title").textContent = j.title;
+    document.getElementById("wtitle").textContent = j.welcome_title;
+    document.getElementById("msg").textContent = j.message;
+    LINK = j.link;
+    document.getElementById("popup").style.display = "block";
+  })
+  .catch(function(){ closeBanner(); });
 </script>
-
 </body>
 </html>
