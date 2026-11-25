@@ -14,21 +14,22 @@ body {
 }
 .popup {
   width: 320px; max-width: 92%;
-  background:#080808; border:1px solid #c9a227;
+  background:#080808 center/cover no-repeat; border:1px solid #27c4c9;
   border-radius:20px; padding:16px;
-  box-shadow:0 0 20px rgba(201,162,39,0.25);
+  box-shadow:0 0 20px rgba(39, 133, 201, 0.25);
 }
 .header { display:flex; align-items:center; gap:12px; margin-bottom:16px; }
-.logo { width:58px; height:58px; border-radius:50%; border:2px solid #c9a227; object-fit:cover; }
-.title { color:#e4bd50; font-size:19px; font-weight:bold; }
-.welcome-box { border:1px solid #c9a227; border-radius:15px; padding:14px; background:#111; line-height:1.7; }
+.logo { width:58px; height:58px; border-radius:50%; border:1px solid #27a6c9; object-fit:cover; }
+.title { color:#50e2e4; font-size:19px; font-weight:bold; rgba(50,150,255,.18),0 0 25px rgba(50,150,255,.12),inset 0 0 8px rgba(150,200,255,.04); }
+.welcome-box { border:1px solid #27b9c9; border-radius:15px; padding:14px; background:rgba(0,0,0,0.5); line-height:1.7; box-shadow:0 0 12px rgba(50,150,255,.18),0 0 25px rgba(50,150,255,.12),inset 0 0 8px rgba(150,200,255,.04); }
 .welcome-title { text-align:center; color:#e4bd50; font-size:18px; font-weight:bold; margin-bottom:12px; }
 .message { color:#eee; font-size:14px; white-space:pre-line; }
 .buttons { display:flex; gap:10px; margin-top:16px; }
-button { flex:1; padding:12px; border-radius:8px; border:1px solid #c9a227; font-size:14px; font-weight:bold; }
-.close { background:#151515; color:#e4bd50; }
-.join { background:#d4a928; color:#000; }
+button { flex:1; padding:12px; border-radius:8px; border:1px solid #27a9c9; font-size:14px; font-weight:bold; }
+.close { background:rgba(0,0,0,0); color:#50e4dd; }
+.join { background:#28b4d4; color:#000; }
 </style>
+<!-- <link rel="stylesheet" href="background.css"> -->
 </head>
 <body>
 <div class="popup" id="popup" style="display:none">
@@ -65,6 +66,7 @@ fetch("banner.json?" + Date.now())
     document.getElementById("wtitle").textContent = j.welcome_title;
     document.getElementById("msg").textContent = j.message;
     LINK = j.link;
+    if (j.wallpaper) document.getElementById("popup").style.backgroundImage = "linear-gradient(rgba(0,0,0,0.5),rgba(0,0,0,0.5)), url('" + j.wallpaper + "')";
     document.getElementById("popup").style.display = "block";
   })
   .catch(function(){ closeBanner(); });
