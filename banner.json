@@ -1,8 +1,9 @@
 {
   "show": true,
   "logo": "logo.png",
-  "title": "YT : Capcut",
+  "title": "BY : SaGaR",
   "welcome_title": "✨ Hello & Welcome ✨",
   "message": "Welcome to our community!\n\nHere you can add your announcement, information, and updates.",
-  "link": "https://t.me/YourName"
+  "link": "https://t.me/YourName",
+  "wallpaper":"wallpaper.jpg"
 }
